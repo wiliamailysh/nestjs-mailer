@@ -7,8 +7,10 @@ export class MailerController {
   constructor(private readonly mailjetService: MailjetService) {}
 
   @Post('send')
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async send(@Req() request: Request) {
-    const repl = await this.mailjetService.send({
+    console.log('Here is my request');
+    await this.mailjetService.send({
       Messages: [
         {
           From: {
@@ -24,9 +26,6 @@ export class MailerController {
         },
       ],
     });
-    return {
-      status: repl.body.Messages[0].Status,
-      request: JSON.stringify(request),
-    };
+    return 'success';
   }
 }

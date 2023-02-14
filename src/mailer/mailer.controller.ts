@@ -10,6 +10,16 @@ export class MailerController {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async send(@Req() request: Request) {
     console.log('Here is my request ----> ', request);
+    const { email, template_id, personalizations } = request.body;
+    const { given_name, last_name, id: userId, lang } = personalizations;
+
+    console.log('email', email);
+    console.log('template_id', template_id);
+    console.log('given_name', given_name);
+    console.log('last_name', last_name);
+    console.log('userId', userId);
+    console.log('lang', lang);
+
     const repl = await this.mailjetService.send({
       Messages: [
         {
@@ -18,11 +28,12 @@ export class MailerController {
           },
           To: [
             {
-              Email: 'vdouay@kaliop.com',
+              Email: email || 'vdouay@kaliop.com',
             },
           ],
-          Subject: 'nestjs test mail',
-          TextPart: 'nestjs test mail content',
+          TemplateID: 4573833,
+          TemplateLanguage: true,
+          Subject: 'Your email flight plan!',
         },
       ],
     });

@@ -1,4 +1,4 @@
-import { Controller, Post } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { MailjetService } from 'nest-mailjet';
 
 @Controller('mailer')
@@ -6,7 +6,7 @@ export class MailerController {
   constructor(private readonly mailjetService: MailjetService) {}
 
   @Post('send')
-  async send() {
+  async send(@Body() body) {
     const repl = await this.mailjetService.send({
       Messages: [
         {
@@ -23,6 +23,9 @@ export class MailerController {
         },
       ],
     });
-    return repl.body.Messages[0].Status;
+    return {
+      status: repl.body.Messages[0].Status,
+      payload: JSON.stringify(body),
+    };
   }
 }

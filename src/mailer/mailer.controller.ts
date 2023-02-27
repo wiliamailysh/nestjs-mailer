@@ -38,19 +38,15 @@ export class MailerController {
     // console.log('userId', userId);
     // console.log('lang', lang);
 
-    const buffer = Buffer.from(
-      'https://www.salon-gourmet-selection.com/',
-      'utf-8',
-    );
+    // const buffer = Buffer.from(
+    //   'https://www.salon-gourmet-selection.com/',
+    //   'utf-8',
+    // );
 
-    const encodedURL = buffer.toString('base64');
+    // const encodedURL = buffer.toString('base64');
+    const encodedURL = 'https://www.salon-gourmet-selection.com/';
 
     if (template_id === 'sign_up' && redirect_url) {
-      const buffer = Buffer.from(
-        'https://www.salon-gourmet-selection.com/',
-        'utf-8',
-      );
-      const encodedURL = buffer.toString('base64');
       redirect_url = redirect_url.split('?')[0] + `?redirect_url=${encodedURL}`;
     } else if (template_id === 'password_reset' && redirect_url) {
       redirect_url =

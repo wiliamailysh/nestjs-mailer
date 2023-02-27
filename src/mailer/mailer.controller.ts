@@ -12,10 +12,10 @@ const mailjetTemplateID = {
 
 // @todo @vdouay translations
 const mailjetTemplateSubject = {
-  sign_up: 'Confirmation de la soucriprion',
+  sign_up: 'Confirmation de la souscription', // ok
   verify_email: "Confirmation d'email",
   update_email: "Mise à jour de l'email",
-  password_reset: 'Modification du mot de passe',
+  password_reset: 'Modification du mot de passe', // ok
   password_updated: 'Mot de passe mis à jour',
 };
 @Controller('mailer')
@@ -27,7 +27,8 @@ export class MailerController {
   async send(@Req() request: Request) {
     console.log('Here is my request ----> ', request);
     const { email, template_id, personalizations } = request.body;
-    const { given_name, last_name } = personalizations;
+    const { given_name, last_name, lang } = personalizations;
+    let { redirect_url } = personalizations;
 
     // @todo @vdouay handle errors
     // console.log('email', email);
@@ -36,6 +37,25 @@ export class MailerController {
     // console.log('last_name', last_name);
     // console.log('userId', userId);
     // console.log('lang', lang);
+
+    const buffer = Buffer.from(
+      'https://www.salon-gourmet-selection.com/',
+      'utf-8',
+    );
+
+    const encodedURL = buffer.toString('base64');
+
+    if (template_id === 'sign_up' && redirect_url) {
+      const buffer = Buffer.from(
+        'https://www.salon-gourmet-selection.com/',
+        'utf-8',
+      );
+      const encodedURL = buffer.toString('base64');
+      redirect_url = redirect_url.split('?')[0] + `?redirect_url=${encodedURL}`;
+    } else if (template_id === 'password_reset' && redirect_url) {
+      redirect_url =
+        redirect_url + `&lang=${lang}&exhibition=${origin}&from=${encodedURL}`;
+    }
 
     // Retrieve user info
     // exhibition origin ---> image
@@ -56,6 +76,7 @@ export class MailerController {
             exhibitionName: 'foire_de_paris',
             givenName: given_name || false,
             lastName: last_name || false,
+            redirectUrl: redirect_url || false,
           },
           TemplateID: mailjetTemplateID[template_id],
           TemplateLanguage: true,

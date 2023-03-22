@@ -25,7 +25,7 @@ export class MailerController {
   @Post('send')
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async send(@Req() request: Request) {
-    console.log('Here is my request -----> ', JSON.stringify(request));
+    console.log('Here is my request -----> ', request);
     const { email, template_id, personalizations } = request.body;
     const { given_name, last_name, lang } = personalizations;
     let { redirect_url } = personalizations;

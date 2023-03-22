@@ -9,7 +9,7 @@ import { MailerController } from './mailer.controller';
         // apiKey: process.env.MAILJET_API_KEY,
         // apiSecret: process.env.MAILJET_API_SECRET,
         apiKey: '215fd08a28a20eab3959657afff9c71d',
-        apiSecret: '3252f19d5bb8b49d0f3009f66ad3f715',
+        apiSecret: 'b2442af1eb5965392cbcdc8caaf31800',
       }),
     }),
   ],
